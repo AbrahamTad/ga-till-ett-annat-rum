@@ -8,65 +8,69 @@
   </head>
 
   <body>
-  <!-- Background music -->
-  <audio id="bg-music" src="sounds/music.mp3" loop></audio>
+    <!-- Background music -->
+    <audio id="bg-music" src="sounds/music.mp3" loop></audio>
 
-  <!-- Sound effects -->
-  <audio id="sfx-click" src="sounds/click.mp3" preload="auto"></audio>
-  <audio id="sfx-pickup" src="sounds/pickup.mp3" preload="auto"></audio>
+    <!-- Sound effects -->
+    <audio id="sfx-click" src="sounds/click.mp3" preload="auto"></audio>
+    <audio id="sfx-pickup" src="sounds/pickup.mp3" preload="auto"></audio>
 
-  <!-- INTRO SCREEN -->
-  <div id="intro" class="intro-screen">
-    <div class="intro-box">
-      <h2>Välkommen till Äventyrsrummet</h2>
-      <p>
-        Utforska rummen, samla föremål och ta dig vidare genom att göra val.
-        Vissa dörrar är låsta, vissa föremål gömda… Lycka till!
-      </p>
-      <button id="start-btn">Börja spelet</button>
+    <!-- INTRO SCREEN -->
+    <div id="intro" class="intro-screen">
+      <div class="intro-box">
+        <h2>Välkommen till Äventyrsrummet</h2>
+        <p>
+          Utforska rummen, samla föremål och ta dig vidare genom att göra val.
+          Vissa dörrar är låsta, vissa föremål gömda… Lycka till!
+        </p>
+        <button id="start-btn">Börja spelet</button>
+      </div>
     </div>
-  </div>
 
-  <!-- ENDING SCREEN (hidden until player wins) -->
-  <div id="ending" class="intro-screen" style="display: none;">
-    <div class="intro-box">
-      <h2>🎉 Du vann spelet!</h2>
-      <p>Grattis! Du har samlat alla föremål och klarat äventyret.</p>
-      <button onclick="location.reload()">Spela igen</button>
+    <!-- ENDING SCREEN (hidden until player wins) -->
+    <div id="ending" class="intro-screen" style="display: none">
+      <div class="intro-box">
+        <h2>🎉 Du vann spelet!</h2>
+        <p>Grattis! Du har samlat alla föremål och klarat äventyret.</p>
+        <button onclick="location.reload()">Spela igen</button>
+      </div>
     </div>
-  </div>
 
-  <!-- MAIN GAME UI -->
-  <main id="game">
-    <h1>Gå till ett annat rum</h1>
+    <!-- MAIN GAME UI -->
+    <main id="game">
+      <h1>Gå till ett annat rum</h1>
 
-    <section id="room" aria-live="polite">
-      <h2 id="room-name"></h2>
-      <p id="room-description"></p>
-    </section>
+      <section id="room" aria-live="polite">
+        <h2 id="room-name"></h2>
+        <p id="room-description"></p>
+      </section>
 
-    <section id="choices-section">
-      <h3>Vad vill du göra?</h3>
-      <div id="choices"></div>
-    </section>
+      <section id="choices-section">
+        <h3>Vad vill du göra?</h3>
+        <div id="choices"></div>
+      </section>
 
-    <section id="inventory-section">
-      <h3>Din ryggsäck</h3>
-      <ul id="inventory-list" class="inventory-grid"></ul>
-    </section>
+      <section id="inventory-section">
+        <h3>Din ryggsäck</h3>
+        <ul id="inventory-list" class="inventory-grid"></ul>
+      </section>
 
-    <section id="controls">
-      <button type="button" id="save-btn">💾 Spara spel</button>
-      <button type="button" id="load-btn">📂 Ladda spel</button>
-      <button type="button" id="reset-btn">🔄 Nytt spel</button>
-    </section>
-  </main>
+      <section id="controls">
+        <button type="button" id="save-btn">💾 Spara spel</button>
+        <button type="button" id="load-btn">📂 Ladda spel</button>
+        <button type="button" id="reset-btn">🔄 Nytt spel</button>
+      </section>
+    </main>
 
-  <!-- Toast notifications -->
-  <div id="toast"></div>
+    <!-- Toast notifications -->
+    <div id="toast"></div>
 
-  <script src="js/rooms.js"></script>
-  <script src="js/script.js"></script>
-</body>
-
+    <script src="js/rooms.js"></script>
+    <script src="js/items.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/script.js"></script>
+  </body>
 </html>
