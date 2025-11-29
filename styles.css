@@ -1,0 +1,373 @@
+/* =========================
+   Baslayout & bakgrund
+   ========================= */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #fff;
+  background-color: #000;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  /* Layout */
+  display: flex;
+  justify-content: flex-start; /* ⬅ inte centrerat längre */
+  align-items: flex-start;
+  padding: 2rem 3rem; /* lite luft runt panelen */
+  box-sizing: border-box;
+  transition: background-image 0.4s ease-in-out;
+}
+/* Bakgrund per rum */
+body[data-room="hall"] {
+  background-image: url("images/hall.png");
+}
+
+body[data-room="kitchen"] {
+  background-image: url("images/kitchen.png");
+}
+
+body[data-room="kitchen_no_key"] {
+  background-image: url("images/kitchen_no_key.png");
+}
+
+body[data-room="livingRoom"] {
+  background-image: url("images/livingRoom.png");
+}
+
+body[data-room="basement"] {
+  background-image: url("images/basement.png");
+}
+
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.intro-box {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 2rem 2.5rem;
+  border-radius: 18px;
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+}
+
+.intro-box button {
+  margin-top: 1rem;
+  padding: 0.8rem 1.4rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.intro-box button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+#start-btn {
+  margin-top: 15px;
+  padding: 10px 25px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+}
+
+#start-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* =========================
+   Game container
+   ========================= */
+
+#game {
+  width: 100%;
+  max-width: 760px; /* ⬅ smalare */
+  margin: 0 auto;
+  padding: 1.8rem 2rem;
+  background-color: rgba(0, 0, 0, 0.55); /* ⬅ mer genomskinlig */
+  backdrop-filter: blur(10px);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+  box-sizing: border-box;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#game.is-fading {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* =========================
+   Typografi
+   ========================= */
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+  margin-bottom: 1.4rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-top: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+
+#room-description {
+  margin: 0.4rem 0 1.2rem 0;
+  line-height: 1.5;
+}
+
+/* =========================
+   Val (choices)
+   ========================= */
+
+#choices-section h3 {
+  margin-top: 1.2rem;
+}
+
+/* Layout för val-listan */
+#choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 0.3rem;
+  align-items: flex-start; /* gör så att knapparna inte täcker hela bredden */
+}
+
+/* Själva "äventyrskorten" */
+#choices button {
+  padding: 0.7rem 1.4rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  width: auto; /* viktig: ingen full bredd */
+  max-width: 320px; /* lagom kort, känns som ett kort */
+  text-align: left;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* Liten "bullet" till vänster */
+#choices button::before {
+  content: "➤";
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Hover-effekt */
+#choices button:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+}
+
+/* mobile size knnaper  */
+@media (max-width: 768px) {
+  #choices {
+    align-items: stretch;
+  }
+
+  #choices button {
+    width: 100%;
+    max-width: none;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* =========================
+   Inventory
+   ========================= */
+
+#inventory-section {
+  margin-top: 1.6rem;
+}
+
+.inventory-grid {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+  margin-top: 0.6rem;
+}
+
+.inventory-item {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.6rem 0.4rem 0.5rem 0.4rem;
+  text-align: center;
+  font-size: 0.8rem;
+  border: 1px solid transparent;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.12s ease, background 0.12s ease;
+}
+
+.inventory-item img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
+}
+
+.inventory-item div {
+  font-size: 0.8rem;
+}
+
+.inventory-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+}
+
+/* Text när ryggsäcken är tom */
+#inventory-list li:first-child:not(.inventory-item) {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* =========================
+   Kontroller (spara/ladda)
+   ========================= */
+
+#controls {
+  margin-top: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+#controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.38);
+  color: #f5f5f5;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+#controls button:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   Toast (popup notifications)
+   ========================= */
+
+#toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  padding: 12px 20px;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, bottom 0.4s ease;
+  z-index: 9999;
+}
+
+#toast.show {
+  opacity: 1;
+  bottom: 50px;
+}
+
+/* =========================
+   Responsiv design
+   ========================= */
+
+@media (max-width: 768px) {
+  body {
+    padding: 0.75rem;
+    align-items: stretch;
+    justify-content: center; /* ⬅ centrera på mobil */
+  }
+
+  #game {
+    padding: 1.4rem 1.2rem 1.6rem 1.2rem;
+    border-radius: 14px;
+    max-width: 100%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  #choices button {
+    font-size: 0.95rem;
+  }
+
+  .inventory-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+}
