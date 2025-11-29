@@ -1,5 +1,3 @@
-// js/items.js
-
 /**
  * Item-objekt i spelet.
  * @type {Record<string, {id: string, name: string, icon: string, description: string}>}
