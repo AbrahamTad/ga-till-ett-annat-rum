@@ -3,9 +3,6 @@
  * @returns {void}
  */
 function renderRoom() {
-  const rooms = window.rooms;
-  const gameState = window.gameState;
-
   const room = rooms[gameState.currentRoomId];
 
   if (!room) {
@@ -14,7 +11,7 @@ function renderRoom() {
   }
 
   // Uppdatera bakgrund (använder inventory för nyckel/kök)
-  window.updateRoomBackground(room.id);
+  updateRoomBackground(room.id);
 
   const roomNameEl = document.getElementById("room-name");
   const roomDescEl = document.getElementById("room-description");

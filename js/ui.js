@@ -67,7 +67,7 @@ function updateInventoryUI() {
     img.src = itemInfo.icon;
     img.alt = itemInfo.name;
 
-    const label = document.createElement("div");
+    const label = document.createElement("p");
     label.textContent = itemInfo.name;
 
     li.appendChild(img);
@@ -85,13 +85,4 @@ function showEnding() {
   document.getElementById("ending").style.display = "flex";
   document.getElementById("intro").style.display = "none";
   document.getElementById("game").style.display = "none";
-
-  const bg = document.getElementById("bg-music");
-  if (bg) bg.pause();
 }
-
-// Gör UI-funktionerna globala
-window.showToast = showToast;
-window.updateRoomBackground = updateRoomBackground;
-window.updateInventoryUI = updateInventoryUI;
-window.showEnding = showEnding;

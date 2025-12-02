@@ -1,5 +1,5 @@
 /**
- * Ljud-effekter som används i spelet.
+ * Ljud-effekter för spelet.
  * @type {Record<string, HTMLAudioElement | null>}
  */
 const sounds = {
@@ -17,7 +17,7 @@ function playSound(name) {
   if (!audio) return;
   audio.currentTime = 0; // börja om från början
   audio.play().catch(() => {
-    // vissa browsers blockerar auto-play,
+    //auto-play,
   });
 }
 
