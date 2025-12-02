@@ -64,7 +64,7 @@ function handleChoice(choice) {
     choice.requiredItem &&
     !gameState.inventory.includes(choice.requiredItem)
   ) {
-    alert(choice.failureMessage || "Du saknar något för att göra detta.");
+    showToast(choice.failureMessage || "Du saknar något för att göra detta.");
     return;
   }
 

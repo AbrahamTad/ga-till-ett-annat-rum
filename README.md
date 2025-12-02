@@ -44,5 +44,5 @@ project-root/
 
 1. Klona repot:
    ```bash
-   git clone https://github.com/AbrahamTad/ga-till-ett-annat-rum.git
+   git  https://abrahamtad.github.io/ga-till-ett-annat-rum/
    ```
