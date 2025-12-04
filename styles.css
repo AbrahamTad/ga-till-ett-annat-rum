@@ -2,30 +2,32 @@
    Baslayout & bakgrund
    ========================= */
 
-html,
+/* html,
 body {
   height: 100%;
   margin: 0;
-}
+} */
 
 body {
+  height: 100%;
+  margin: 0;
+  padding: 2rem 3rem;
+  color: #fff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  color: #fff;
   background-color: #000;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 
-  /* Layout */
   display: flex;
-  justify-content: flex-start; /* ⬅ inte centrerat längre */
-  align-items: flex-start;
-  padding: 2rem 3rem; /* lite luft runt panelen */
+  justify-content: flex-start; 
+  align-items: center; /* vertically centered */
   box-sizing: border-box;
   transition: background-image 0.4s ease-in-out;
 }
+
 /* Bakgrund per rum */
 body[data-room="hall"] {
   background-image: url("images/hall.png");
@@ -46,6 +48,29 @@ body[data-room="livingRoom"] {
 body[data-room="basement"] {
   background-image: url("images/basement.png");
 }
+
+body[data-room="basement_lit"] {
+  background-image: url("images/basement_lit.png"); /* brighter torch version */
+}
+
+
+body[data-room="garden"] {
+  background-image: url("images/garden.png");
+}
+
+body[data-room="attic"] {
+  background-image: url("images/attic.png");
+}
+
+body[data-room="secretRoom"] {
+  background-image: url("images/secretroom.png");
+}
+
+/* garden.png (Trädgården)
+
+attic.png (Vinden)
+
+secretroom.png (Hemligt rum) */
 
 .intro-screen {
   position: fixed;
@@ -109,10 +134,10 @@ body[data-room="basement"] {
 
 #game {
   width: 100%;
-  max-width: 760px; /* ⬅ smalare */
-  margin: 0 auto;
+  max-width: 520px;
+  margin: 0;
   padding: 1.8rem 2rem;
-  background-color: rgba(0, 0, 0, 0.55); /* ⬅ mer genomskinlig */
+  background-color: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(10px);
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -350,7 +375,7 @@ h3 {
   body {
     padding: 0.75rem;
     align-items: stretch;
-    justify-content: center; /* ⬅ centrera på mobil */
+    justify-content: center;
   }
 
   #game {

@@ -10,7 +10,6 @@ function renderRoom() {
     return;
   }
 
-  // Uppdatera bakgrund (använder inventory för nyckel/kök)
   updateRoomBackground(room.id);
 
   const roomNameEl = document.getElementById("room-name");
@@ -20,23 +19,22 @@ function renderRoom() {
   roomDescEl.textContent = room.description;
 
   updateChoices(room);
-  window.updateInventoryUI();
+  updateInventoryUI();
 }
 
 /**
  * Skapar knappar för alla val i ett rum.
- * @param {Object} room - Rummet som spelaren befinner sig i.
+ * @param {Room} room
  * @returns {void}
  */
 function updateChoices(room) {
   const choicesContainer = document.getElementById("choices");
-  const inventory = window.gameState.inventory;
+  const inv = gameState.inventory;
 
-  choicesContainer.innerHTML = ""; // rensa gamla knappar
+  choicesContainer.innerHTML = "";
 
   room.choices.forEach((choice) => {
-    // Göm val om spelaren redan har ett visst item
-    if (choice.hideIfHasItem && inventory.includes(choice.hideIfHasItem)) {
+    if (choice.hideIfHasItem && inv.includes(choice.hideIfHasItem)) {
       return;
     }
 
@@ -44,7 +42,7 @@ function updateChoices(room) {
     btn.textContent = choice.text;
 
     btn.addEventListener("click", () => {
-      window.playSound("click");
+      playSound("click");
       handleChoice(choice);
     });
 
@@ -54,26 +52,27 @@ function updateChoices(room) {
 
 /**
  * Hanterar ett val (choice) när spelaren klickar på en knapp.
- * @param {Object} choice
+ * @param {RoomChoice} choice
  * @returns {void}
  */
 function handleChoice(choice) {
-  // Kolla om valet kräver ett föremål
-  const gameState = window.gameState;
+  // 1. Kräver valet ett föremål som spelaren inte har?
   if (
     choice.requiredItem &&
     !gameState.inventory.includes(choice.requiredItem)
   ) {
-    showToast(choice.failureMessage || "Du saknar något för att göra detta.");
+    const message =
+      choice.failureMessage || "Du saknar något för att göra detta.";
+    showToast(message); // 
     return;
   }
 
-  // Om valet ger ett föremål
+  // 2. Ger valet ett föremål?
   if (choice.addItem) {
     addToInventory(choice.addItem);
   }
 
-  // Byt rum om vi inte ska stanna kvar
+  // 3. Byt rum eller stanna kvar
   if (!choice.stayInRoom && choice.targetRoom) {
     changeRoom(choice.targetRoom);
   } else {
@@ -81,68 +80,48 @@ function handleChoice(choice) {
   }
 }
 
+
 /**
  * Byter rum med fade-animation och sparar spelet.
- * @param {string} targetRoomId - Id:t för rummet att gå till.
+ * @param {string} targetRoomId
  * @returns {void}
  */
 function changeRoom(targetRoomId) {
-  const rooms = window.rooms;
-  const gameState = window.gameState;
-
   if (!rooms[targetRoomId]) {
     console.error("Okänt rum:", targetRoomId);
     return;
   }
 
   const gameEl = document.getElementById("game");
-
-  // Starta fade-out
   gameEl.classList.add("is-fading");
 
   setTimeout(() => {
-    // Byt rum när fade-out är klar
     gameState.currentRoomId = targetRoomId;
-    window.saveGame();
+    saveGame();
     renderRoom();
-
-    // Fade-in
     gameEl.classList.remove("is-fading");
-  }, 300); // samma tid som i CSS
+  }, 300);
 }
 
 /**
  * Lägger till ett föremål i inventory och kollar vinstvillkor.
- * @param {string} itemId - Id:t för föremålet, t.ex. "nyckel".
+ * @param {string} itemId
  * @returns {void}
  */
 function addToInventory(itemId) {
-  const gameState = window.gameState;
-  const items = window.items;
-
   if (!gameState.inventory.includes(itemId)) {
     gameState.inventory.push(itemId);
 
     const itemInfo = items[itemId];
-    window.playSound("pickup");
+    playSound("pickup");
     if (itemInfo) {
-      window.showToast(`Du plockade upp ${itemInfo.name}!`);
+      showToast(`Du plockade upp ${itemInfo.name}!`);
     }
 
-    window.saveGame();
-    window.updateInventoryUI();
-
-    // Använd globala vinst-kollen från state.js
-    if (typeof window.checkWinCondition === "function") {
-      window.checkWinCondition();
-    }
+    saveGame();
+    updateInventoryUI();
+    checkWinCondition();
   } else {
     console.log("Item finns redan:", itemId);
   }
 }
-
-// Gör renderRoom (och ev. andra) globala
-window.renderRoom = renderRoom;
-window.addToInventory = addToInventory;
-window.changeRoom = changeRoom;
-window.handleChoice = handleChoice;

@@ -1,58 +1,93 @@
-function checkWinCondition() {
-  const hasAll = REQUIRED_ITEMS.every((id) => gameState.inventory.includes(id));
-  if (hasAll) {
-    showEnding();
-  }
-}
+/**
+ * Central controller för spelets livscykel och UI-händelser.
+ */
+const GameController = {
+  introEl: null,
+  gameEl: null,
+  endingEl: null,
+  startBtn: null,
+  playAgainBtn: null,
+  resetBtn: null,
 
-function initGame() {
-  // 1️⃣ Create the intro + ending HTML dynamically
-  if (window.createIntroAndEndingScreens) {
+  /**
+   * Initierar spelet när DOM:en är laddad.
+   * @returns {void}
+   */
+  init() {
+    // Skapa intro- och ending-skärmar
     createIntroAndEndingScreens();
-  }
 
-  // 2️⃣ Load saved game BEFORE showing anything
-  loadGame();
+    this.introEl = document.getElementById("intro");
+    this.gameEl = document.getElementById("game");
+    this.endingEl = document.getElementById("ending");
+    this.startBtn = document.getElementById("start-btn");
+    this.playAgainBtn = document.getElementById("play-again-btn");
+    this.resetBtn = document.getElementById("reset-btn");
 
-  const introEl = document.getElementById("intro");
-  const gameEl = document.getElementById("game");
-  const endingEl = document.getElementById("ending");
-  const startBtn = document.getElementById("start-btn");
-  const playAgainBtn = document.getElementById("play-again-btn");
-  const resetBtn = document.getElementById("reset-btn");
+    // Ladda sparat spel
+    loadGame();
 
-  // 3️⃣ Show intro first
-  introEl.style.display = "flex";
-  gameEl.style.display = "none";
+    // Rendera aktuell state (osynlig bakom intro)
+    renderRoom();
 
-  // 4️⃣ Start the game WITHOUT clearing save
-  startBtn.addEventListener("click", () => {
-    introEl.style.display = "none";
-    gameEl.style.display = "block";
-    renderRoom(); // Show saved items + saved room
-  });
+    // Om sparfil finns → visa "Fortsätt spelet"
+    const hasSave = !!localStorage.getItem(SAVE_KEY);
+    this.startBtn.textContent = hasSave ? "Fortsätt spelet" : "Börja spelet";
 
-  // 5️⃣ Player won → "Spela igen" ONLY hides the winning screen!
-  if (playAgainBtn) {
-    playAgainBtn.addEventListener("click", () => {
-      endingEl.style.display = "none";
-      gameEl.style.display = "block";
+    // Visa intro först
+    this.introEl.style.display = "flex";
+    this.gameEl.style.display = "none";
 
-      // Very important: we DO NOT reset save
-      renderRoom();
-    });
-  }
+    // Koppla händelser
+    this.startBtn.addEventListener("click", () => this.startGame());
 
-  // 6️⃣ Only "Nytt spel" clears the save file
-  resetBtn.addEventListener("click", () => {
-    if (confirm("Starta om spelet?")) {
-      resetGame();
-      renderRoom();
+    if (this.playAgainBtn) {
+      this.playAgainBtn.addEventListener("click", () => this.playAgain());
     }
-  });
 
-  // 7️⃣ Render saved state immediately
-  renderRoom();
-}
+    if (this.resetBtn) {
+      this.resetBtn.addEventListener("click", () => this.resetGame());
+    }
+  },
 
-document.addEventListener("DOMContentLoaded", initGame);
+  /**
+   * Startar eller fortsätter spelet från intro-skärmen.
+   * @returns {void}
+   */
+  startGame() {
+    this.introEl.style.display = "none";
+    this.endingEl.style.display = "none";
+    this.gameEl.style.display = "block";
+    renderRoom();
+  },
+
+  /**
+   * När spelaren klickar "Spela igen" på vinnar-skärmen.
+   * @returns {void}
+   */
+  playAgain() {
+    this.endingEl.style.display = "none";
+    this.gameEl.style.display = "block";
+    renderRoom(); // fortsätt med samma state
+  },
+
+  /**
+   * Startar om spelet helt (enda stället där state rensas).
+   * @returns {void}
+   */
+  resetGame() {
+    if (!confirm("Starta om spelet?")) return;
+
+    resetGame(); // från state.js
+    renderRoom();
+
+    // Visa intro igen
+    this.introEl.style.display = "flex";
+    this.gameEl.style.display = "none";
+
+    // Ändra knapptext tillbaka till "Börja spelet"
+    this.startBtn.textContent = "Börja spelet";
+  },
+};
+
+document.addEventListener("DOMContentLoaded", () => GameController.init());

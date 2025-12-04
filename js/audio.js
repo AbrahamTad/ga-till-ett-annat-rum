@@ -1,5 +1,5 @@
 /**
- * Ljud-effekter för spelet.
+ * Ljud-effekter som används i spelet.
  * @type {Record<string, HTMLAudioElement | null>}
  */
 const sounds = {
@@ -8,19 +8,15 @@ const sounds = {
 };
 
 /**
- * Spelar upp ett ljud
- * @param {string} name - Ljudets nyckel, t.ex. "click" eller "pickup".
+ * Spelar upp ett ljud om det finns definierat.
+ * @param {string} name - "click" eller "pickup".
  * @returns {void}
  */
 function playSound(name) {
   const audio = sounds[name];
   if (!audio) return;
-  audio.currentTime = 0; // börja om från början
+  audio.currentTime = 0;
   audio.play().catch(() => {
-    //auto-play,
+    // vissa browsers blockerar auto-play, inga problem.
   });
 }
-
-// gör globalt
-window.sounds = sounds;
-window.playSound = playSound;

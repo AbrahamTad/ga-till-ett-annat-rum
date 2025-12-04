@@ -1,6 +1,16 @@
 /**
  * Item-objekt i spelet.
- * @type {Record<string, {id: string, name: string, icon: string, description: string}>}
+ * @typedef {Object} GameItem
+ * @property {string} id
+ * @property {string} name
+ * @property {string} icon
+ * @property {string} description
+ */
+
+/**
+ * Alla föremål i spelet.
+ * OBS: Lägg till motsvarande bilder i mappen images/
+ * @type {Record<string, GameItem>}
  */
 const items = {
   nyckel: {
@@ -21,7 +31,16 @@ const items = {
     icon: "images/coin.png",
     description: "Ett litet guldmynt. Kanske värt något?",
   },
+  bok: {
+    id: "bok",
+    name: "Gammal bok",
+    icon: "images/book.png", 
+    description: "En gammal dammig bok med mystiska symboler.",
+  },
+  nyckelkort: {
+    id: "nyckelkort",
+    name: "Nyckelkort",
+    icon: "images/keycard.png", 
+    description: "Ett nyckelkort som verkar öppna något hemligt.",
+  },
 };
-
-// gör items tillgängligt globalt
-window.items = items;

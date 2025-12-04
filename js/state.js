@@ -6,34 +6,25 @@ const SAVE_KEY = "roomGameWithImages_v1";
 
 /**
  * Föremål som krävs för att vinna spelet.
+ * (Extra föremål kan finnas, men dessa tre krävs.)
  * @type {string[]}
  */
 const REQUIRED_ITEMS = ["nyckel", "mynt", "fackla"];
 
 /**
  * Startläge för spelet.
+ * @type {{ currentRoomId: string, inventory: string[] }}
  */
 const initialGameState = {
   currentRoomId: "hall",
-  inventory: [], // lagrar item-id:n, t.ex. ["nyckel", "mynt"]
+  inventory: [],
 };
 
 /**
- * Globalt spel-state.
+ * Globalt spel-state (muteras, men ersätts aldrig).
+ * @type {{ currentRoomId: string, inventory: string[] }}
  */
 let gameState = { ...initialGameState };
-
-/**
- * Kollar om spelaren har alla REQUIRED_ITEMS och visar slutskärmen i så fall.
- * @returns {void}
- */
-function checkWinCondition() {
-  const hasAll = REQUIRED_ITEMS.every((id) => gameState.inventory.includes(id));
-
-  if (hasAll) {
-    showEnding();
-  }
-}
 
 /**
  * Sparar spelet till localStorage.
@@ -59,16 +50,14 @@ function loadGame() {
     if (!data) return; // inget sparat spel
 
     const parsed = JSON.parse(data);
-    const rooms = window.rooms || {};
+    const roomsMap = rooms || {};
 
-    // room
-    if (parsed.currentRoomId && rooms[parsed.currentRoomId]) {
+    if (parsed.currentRoomId && roomsMap[parsed.currentRoomId]) {
       gameState.currentRoomId = parsed.currentRoomId;
     } else {
       gameState.currentRoomId = initialGameState.currentRoomId;
     }
 
-    // inventory
     if (Array.isArray(parsed.inventory)) {
       gameState.inventory = parsed.inventory;
     } else {
@@ -83,22 +72,22 @@ function loadGame() {
 
 /**
  * Återställer spelet till start-läget (hall + tom inventory).
- * OBS: vi ändrar samma objekt, vi skapar inte ett nytt.
  * @returns {void}
  */
 function resetGame() {
   gameState.currentRoomId = initialGameState.currentRoomId;
   gameState.inventory = [];
-
-  saveGame(); // sparar tomt läge
-  renderRoom(); // ritar om rummet + uppdaterar inventory-UI
+  saveGame();
 }
 
-// Gör state/funktioner tillgängliga globalt
-window.gameState = gameState;
-window.SAVE_KEY = SAVE_KEY;
-window.REQUIRED_ITEMS = REQUIRED_ITEMS;
-window.checkWinCondition = checkWinCondition;
-window.saveGame = saveGame;
-window.loadGame = loadGame;
-window.resetGame = resetGame;
+/**
+ * Kollar om spelaren har alla REQUIRED_ITEMS och visar slutskärmen i så fall.
+ * @returns {void}
+ */
+function checkWinCondition() {
+  const hasAll = REQUIRED_ITEMS.every((id) => gameState.inventory.includes(id));
+
+  if (hasAll) {
+    showEnding();
+  }
+}
