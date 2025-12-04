@@ -22,7 +22,7 @@ body {
   background-attachment: fixed;
 
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   align-items: center; /* vertically centered */
   box-sizing: border-box;
   transition: background-image 0.4s ease-in-out;
@@ -52,7 +52,6 @@ body[data-room="basement"] {
 body[data-room="basement_lit"] {
   background-image: url("images/basement_lit.png"); /* brighter torch version */
 }
-
 
 body[data-room="garden"] {
   background-image: url("images/garden.png");

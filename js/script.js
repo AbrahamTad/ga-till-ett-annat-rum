@@ -75,10 +75,37 @@ const GameController = {
    * Startar om spelet helt (enda stället där state rensas).
    * @returns {void}
    */
-  resetGame() {
-    if (!confirm("Starta om spelet?")) return;
+  // resetGame() {
+  //   if (!confirm("Starta om spelet?")) return;
 
-    resetGame(); // från state.js
+  //   resetGame(); // från state.js
+  //   renderRoom();
+
+  //   // Visa intro igen
+  //   this.introEl.style.display = "flex";
+  //   this.gameEl.style.display = "none";
+
+  //   // Ändra knapptext tillbaka till "Börja spelet"
+  //   this.startBtn.textContent = "Börja spelet";
+  // },
+
+  /**
+   * Startar om spelet helt (enda stället där state rensas).
+   * @returns {void}
+   */
+  resetGame() {
+    const hasItems = gameState.inventory && gameState.inventory.length > 0;
+
+    // Välj meddelande beroende på om spelaren har föremål
+    const message = hasItems
+      ? "Du har föremål i din ryggsäck. Vill du starta om? \n Allt sparat raderas."
+      : "Vill du starta om spelet?";
+
+    if (!confirm(message)) return;
+    // Rensa state (från state.js)
+    resetGame();
+
+    // Rendera om
     renderRoom();
 
     // Visa intro igen
